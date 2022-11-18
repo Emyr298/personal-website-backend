@@ -17,12 +17,11 @@ from personal_website import settings
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
-
-from commons.views import get_csrf_token
+from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('csrf/', get_csrf_token, name='get_csrf_token'),
     path('about/', include('about.urls')),
     path('blog/', include('blog.urls')),
+    path('auth/token/', obtain_auth_token, name='obtain_auth_token'),
 ]
