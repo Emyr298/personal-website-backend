@@ -9,7 +9,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 class General(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField()
-    image_url = models.URLField(default='')
+    image_url = models.URLField()
     
     def clean(self):
         if General.objects.count() > 0 and self.pk != General.objects.get().pk:
@@ -17,7 +17,7 @@ class General(models.Model):
 
 class Contact(models.Model):
     platform_name = models.CharField(max_length=20)
-    platform_image_url = models.URLField(default='')
+    platform_image_url = models.URLField()
     url = models.URLField()
 
 class Skill(models.Model):
@@ -29,7 +29,7 @@ class Skill(models.Model):
 
 class Affiliation(models.Model):
     name = models.CharField(max_length=30)
-    image_url = models.URLField(default='')
+    image_url = models.URLField()
 
 class Education(models.Model):
     degree = models.CharField(max_length=20, null=True)
@@ -49,7 +49,7 @@ class Project(models.Model):
 
 class ProjectUrl(models.Model):
     name = models.CharField(max_length=20)
-    url = models.URLField(default='')
+    url = models.URLField()
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
 
 class Certification(models.Model):
