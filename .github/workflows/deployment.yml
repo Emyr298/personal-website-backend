@@ -1,0 +1,40 @@
+name: Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Build Docker Image
+        run: |
+          docker build --build-arg ENVIRONMENT=${{ secrets.DJANGO_KEY }} --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} --build-arg DJANGO_KEY=${{ secrets.ENVIRONMENT }} -t ${{ secrets.IMAGE_NAME }} .
+      - name: Save Docker Image as TAR File
+        run: |
+          docker save -o image.tar ${{ secrets.IMAGE_NAME }}
+      - name: Send TAR File to Server
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.DEPLOYMENT_HOST }}
+          username: ${{ secrets.DEPLOYMENT_HOST_USERNAME }}
+          key: ${{ secrets.DEPLOYMENT_HOST_KEY }}
+          port: ${{ secrets.DEPLOYMENT_HOST_PORT }}
+          source: "image.tar"
+          target: "images/"
+      - name: Run Docker Image
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.DEPLOYMENT_HOST }}
+          username: ${{ secrets.DEPLOYMENT_HOST_USERNAME }}
+          key: ${{ secrets.DEPLOYMENT_HOST_KEY }}
+          port: ${{ secrets.DEPLOYMENT_HOST_PORT }}
+          script: |
+            docker image rm -f ${{ secrets.CONTAINER_NAME }}
+            docker load -i images/image.tar
+            docker run --name ${{ secrets.CONTAINER_NAME }} -d -p 8000:8000 ${{ secrets.IMAGE_NAME }}
+          

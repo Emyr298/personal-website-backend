@@ -19,7 +19,7 @@ load_dotenv(find_dotenv())
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-IS_PRODUCTION = (os.environ.get('ENVIRONMENT') == 'production')
+IS_PRODUCTION = (os.environ.get('ENVIRONMENT').lower() == 'production')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
