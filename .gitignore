@@ -1,5 +1,6 @@
 # Files #
 secrets.txt
+staticfiles/
 
 # Django #
 *.log
