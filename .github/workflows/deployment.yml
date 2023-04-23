@@ -16,7 +16,7 @@ jobs:
           docker build --build-arg ENVIRONMENT=${{ secrets.ENVIRONMENT }} --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} --build-arg DJANGO_KEY=${{ secrets.DJANGO_KEY }} -t ${{ secrets.IMAGE_NAME }} .
       - name: Save Docker Image as TAR File
         run: |
-          docker save -o image.tar ${{ secrets.IMAGE_NAME }}
+          docker save -o ${{ secrets.IMAGE_NAME }}.tar ${{ secrets.IMAGE_NAME }}
       - name: Send TAR File to Server
         uses: appleboy/scp-action@v0.1.4
         with:
