@@ -24,8 +24,8 @@ jobs:
           username: ${{ secrets.DEPLOYMENT_HOST_USERNAME }}
           key: ${{ secrets.DEPLOYMENT_HOST_KEY }}
           port: ${{ secrets.DEPLOYMENT_HOST_PORT }}
-          source: "image.tar"
-          target: "images/"
+          source: ${{ secrets.IMAGE_NAME }}.tar
+          target: images/
       - name: Run Docker Image
         uses: appleboy/ssh-action@v0.1.10
         with:
@@ -34,7 +34,8 @@ jobs:
           key: ${{ secrets.DEPLOYMENT_HOST_KEY }}
           port: ${{ secrets.DEPLOYMENT_HOST_PORT }}
           script: |
-            docker image rm -f ${{ secrets.CONTAINER_NAME }}
-            docker load -i images/image.tar
+            docker container rm -f ${{ secrets.CONTAINER_NAME }}
+            docker image rm -f ${{ secrets.IMAGE_NAME }}
+            docker load -i images/${{ secrets.IMAGE_NAME }}.tar
             docker run --name ${{ secrets.CONTAINER_NAME }} -d -p 8000:8000 ${{ secrets.IMAGE_NAME }}
           
