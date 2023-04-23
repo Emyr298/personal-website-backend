@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Build Docker Image
         run: |
-          docker build --build-arg ENVIRONMENT=${{ secrets.DJANGO_KEY }} --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} --build-arg DJANGO_KEY=${{ secrets.ENVIRONMENT }} -t ${{ secrets.IMAGE_NAME }} .
+          docker build --build-arg ENVIRONMENT=${{ secrets.ENVIRONMENT }} --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} --build-arg DJANGO_KEY=${{ secrets.DJANGO_KEY }} -t ${{ secrets.IMAGE_NAME }} .
       - name: Save Docker Image as TAR File
         run: |
           docker save -o image.tar ${{ secrets.IMAGE_NAME }}
