@@ -27,19 +27,23 @@ class EducationSerializer(serializers.ModelSerializer):
         fields = ['id', 'degree', 'field', 'start_date', 'end_date', 'affiliation']
 
 class ExperienceSerializer(serializers.ModelSerializer):
+    skills = SkillSerializer(many=True, read_only=True)
+    
     class Meta:
         model = Experience
         fields = ['id', 'position', 'skills', 'affiliation']
-
-class ProjectSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Project
-        fields = ['id', 'name', 'description']
 
 class ProjectUrlSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProjectUrl
         fields = ['id', 'name', 'url', 'project']
+
+class ProjectSerializer(serializers.ModelSerializer):
+    project_urls = ProjectUrlSerializer(many=True, read_only=True)
+    
+    class Meta:
+        model = Project
+        fields = ['id', 'name', 'description', 'project_urls']
 
 class CertificationSerializer(serializers.ModelSerializer):
     class Meta:
