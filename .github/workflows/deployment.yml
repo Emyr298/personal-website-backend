@@ -37,5 +37,5 @@ jobs:
             docker container rm -f ${{ secrets.CONTAINER_NAME }}
             docker image rm -f ${{ secrets.IMAGE_NAME }}
             docker load -i images/${{ secrets.IMAGE_NAME }}.tar
-            docker run --name ${{ secrets.CONTAINER_NAME }} -d -p 8000:8000 ${{ secrets.IMAGE_NAME }}
+            docker run --name ${{ secrets.CONTAINER_NAME }} -d --restart always -p 8000:8000 ${{ secrets.IMAGE_NAME }}
           
