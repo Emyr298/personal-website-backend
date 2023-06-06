@@ -4,7 +4,7 @@ from rest_framework import generics
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
 
-from commons.permissions import IsAdminUserOrReadOnly
+from commons.permissions import IsAdminUserOrReadOnly, ReadOnly
 
 from .models import *
 from .serializers import *
@@ -75,6 +75,11 @@ class ExperienceDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Experience.objects.all()
     serializer_class = ExperienceSerializer
     permission_classes = [IsAdminUserOrReadOnly]
+
+class AffiliationExperienceList(generics.ListCreateAPIView):
+    queryset = Affiliation.objects.filter(positions__isnull=False)
+    serializer_class = AffiliationExperienceSerializer
+    permission_classes = [ReadOnly]
 
 class ProjectList(generics.ListCreateAPIView):
     queryset = Project.objects.all()

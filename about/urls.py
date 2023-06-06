@@ -17,4 +17,5 @@ urlpatterns = [
     path('projects/<int:pk>/', ProjectDetail.as_view(), name='project_by_id'),
     path('certifications/', CertificationList.as_view(), name='certifications'),
     path('certifications/<int:pk>/', CertificationDetail.as_view(), name='certification_by_id'),
+    path('affiliations/experience/', AffiliationExperienceList.as_view(), name='affiliation_experience'),
 ]

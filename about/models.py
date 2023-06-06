@@ -55,8 +55,9 @@ class Education(models.Model):
 
 class Experience(models.Model):
     position = models.CharField(max_length=64)
+    description = models.TextField(default='')
     skills = models.ManyToManyField(Skill)
-    affiliation = models.ForeignKey(Affiliation, on_delete=models.CASCADE)
+    affiliation = models.ForeignKey(Affiliation, related_name='positions', on_delete=models.CASCADE)
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
     
@@ -65,6 +66,7 @@ class Experience(models.Model):
 
 class Project(models.Model):
     name = models.CharField(max_length=20)
+    image_url = models.URLField()
     description = models.TextField()
     
     def __str__(self):
