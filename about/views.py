@@ -77,7 +77,7 @@ class ExperienceDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAdminUserOrReadOnly]
 
 class AffiliationExperienceList(generics.ListCreateAPIView):
-    queryset = Affiliation.objects.filter(positions__isnull=False)
+    queryset = Affiliation.objects.filter(positions__isnull=False).distinct()
     serializer_class = AffiliationExperienceSerializer
     permission_classes = [ReadOnly]
 
