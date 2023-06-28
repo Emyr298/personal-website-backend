@@ -31,7 +31,7 @@ SECRET_KEY = os.environ.get('DJANGO_KEY')
 DEBUG = not IS_PRODUCTION
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['*']
+CSRF_TRUSTED_ORIGINS = ['https://personal-backend.emyr298.com']
 
 CORS_ALLOW_ALL_ORIGINS = True
 
