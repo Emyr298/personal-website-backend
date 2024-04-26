@@ -97,7 +97,7 @@ DATABASES = {
 HAS_DATABASE = os.environ.get('DATABASE_URL', None) is not None
 if HAS_DATABASE:
     DATABASES['default'] = dj_database_url.config(
-        conn_max_age=600, ssl_require=True if IS_PRODUCTION else False
+        conn_max_age=600, ssl_require=False
     )
 
 # Password validation
