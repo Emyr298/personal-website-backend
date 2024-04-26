@@ -13,10 +13,10 @@ jobs:
         uses: actions/checkout@v3
       - name: Build Docker Image
         run: |
-          docker build --build-arg ENVIRONMENT=${{ secrets.ENVIRONMENT }} --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} --build-arg DJANGO_KEY=${{ secrets.DJANGO_KEY }} -t ${{ secrets.IMAGE_NAME }} .
+          docker build --build-arg ENVIRONMENT=${{ vars.ENVIRONMENT }} --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} --build-arg DJANGO_KEY=${{ secrets.DJANGO_KEY }} -t ${{ vars.IMAGE_NAME }} .
       - name: Save Docker Image as TAR File
         run: |
-          docker save -o ${{ secrets.IMAGE_NAME }}.tar ${{ secrets.IMAGE_NAME }}
+          docker save -o ${{ vars.IMAGE_NAME }}.tar ${{ vars.IMAGE_NAME }}
       - name: Send TAR File to Server
         uses: appleboy/scp-action@v0.1.4
         with:
@@ -24,7 +24,7 @@ jobs:
           username: ${{ secrets.DEPLOYMENT_HOST_USERNAME }}
           key: ${{ secrets.DEPLOYMENT_HOST_KEY }}
           port: ${{ secrets.DEPLOYMENT_HOST_PORT }}
-          source: ${{ secrets.IMAGE_NAME }}.tar
+          source: ${{ vars.IMAGE_NAME }}.tar
           target: images/
       - name: Run Docker Image
         uses: appleboy/ssh-action@v0.1.10
@@ -34,8 +34,8 @@ jobs:
           key: ${{ secrets.DEPLOYMENT_HOST_KEY }}
           port: ${{ secrets.DEPLOYMENT_HOST_PORT }}
           script: |
-            docker container rm -f ${{ secrets.CONTAINER_NAME }}
-            docker image rm -f ${{ secrets.IMAGE_NAME }}
-            docker load -i images/${{ secrets.IMAGE_NAME }}.tar
-            docker run --name ${{ secrets.CONTAINER_NAME }} -d --restart always -p 8000:8000 ${{ secrets.IMAGE_NAME }}
+            docker container rm -f ${{ vars.CONTAINER_NAME }}
+            docker image rm -f ${{ vars.IMAGE_NAME }}
+            docker load -i images/${{ vars.IMAGE_NAME }}.tar
+            docker run --name ${{ vars.CONTAINER_NAME }} -d --restart always -p 8000:8000 ${{ vars.IMAGE_NAME }}
           
