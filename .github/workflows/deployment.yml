@@ -37,5 +37,5 @@ jobs:
             docker container rm -f ${{ vars.CONTAINER_NAME }}
             docker image rm -f ${{ vars.IMAGE_NAME }}
             docker load -i images/${{ vars.IMAGE_NAME }}.tar
-            docker run --network ${{ vars.DOCKER_NETWORK_NAME }} --name ${{ vars.CONTAINER_NAME }} -d --restart always -p 8000:8000 ${{ vars.IMAGE_NAME }}
+            docker run --name ${{ vars.CONTAINER_NAME }} -d --restart always -p 8000:8000 ${{ vars.IMAGE_NAME }}
           
