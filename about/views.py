@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
+from django.db.models import F
 
 from commons.permissions import IsAdminUserOrReadOnly, ReadOnly
 
@@ -56,8 +57,13 @@ class SkillDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = SkillSerializer
     permission_classes = [IsAdminUserOrReadOnly]
 
+class SkillWithCategoryList(generics.ListCreateAPIView):
+    queryset = SkillCategory.objects.all()
+    serializer_class = SkillCategorySerializer
+    permission_classes = [IsAdminUserOrReadOnly]
+
 class EducationList(generics.ListCreateAPIView):
-    queryset = Education.objects.all()
+    queryset = Education.objects.all().order_by(F("end_date").desc(nulls_last=False))
     serializer_class = EducationSerializer
     permission_classes = [IsAdminUserOrReadOnly]
 

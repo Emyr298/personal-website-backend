@@ -9,6 +9,7 @@ urlpatterns = [
     path('contacts/<int:pk>/', ContactDetail.as_view(), name='contact_by_id'),
     path('skills/', SkillList.as_view(), name='skills'),
     path('skills/<int:pk>/', SkillDetail.as_view(), name='skill_by_id'),
+    path('skills/by-category/', SkillWithCategoryList.as_view(), name='skills_by_category'),
     path('educations/', EducationList.as_view(), name='educations'),
     path('educations/<int:pk>/', EducationDetail.as_view(), name='education_by_id'),
     path('experience/', ExperienceList.as_view(), name='experience'),

@@ -1,9 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.core.validators import MaxValueValidator, MinValueValidator
-
-# References
-# https://stackoverflow.com/questions/2138408/limit-number-of-model-instances-to-be-created-django
+from django.db.models import F
 
 # Create your models here.
 class General(models.Model):
@@ -26,12 +24,19 @@ class Contact(models.Model):
     def __str__(self):
         return self.platform_name
 
+class SkillCategory(models.Model):
+    name = models.CharField(max_length=32, primary_key=True)
+    
+    def __str__(self):
+        return self.name
+
 class Skill(models.Model):
     MIN_LEVEL = 1
     MAX_LEVEL = 5
     
     name = models.CharField(max_length=20)
     level = models.IntegerField(validators=[MinValueValidator(MIN_LEVEL), MaxValueValidator(MAX_LEVEL)])
+    category = models.ForeignKey(SkillCategory, related_name='skills', on_delete=models.SET_NULL, null=True, blank=True)
     
     def __str__(self):
         return self.name
@@ -42,6 +47,9 @@ class Affiliation(models.Model):
     
     def __str__(self):
         return self.name
+    
+    def get_ordered_positions(self):
+        return self.positions.order_by(F("end_date").desc(nulls_last=False))
 
 class Education(models.Model):
     degree = models.CharField(max_length=20, null=True)
@@ -68,6 +76,7 @@ class Project(models.Model):
     name = models.CharField(max_length=20)
     image_url = models.URLField()
     description = models.TextField()
+    skills = models.ManyToManyField(Skill)
     
     def __str__(self):
         return self.name
