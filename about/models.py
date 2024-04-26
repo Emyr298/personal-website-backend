@@ -26,9 +26,13 @@ class Contact(models.Model):
 
 class SkillCategory(models.Model):
     name = models.CharField(max_length=32, primary_key=True)
+    priority = models.IntegerField(default=0)
     
     def __str__(self):
         return self.name
+    
+    def get_ordered_skills(self):
+        return self.skills.order_by("-level")
 
 class Skill(models.Model):
     MIN_LEVEL = 1
@@ -71,6 +75,9 @@ class Experience(models.Model):
     
     def __str__(self):
         return self.position + " at " + self.affiliation.name
+    
+    def get_ordered_skills(self):
+        return self.skills.order_by("-level")
 
 class Project(models.Model):
     name = models.CharField(max_length=20)
@@ -80,6 +87,9 @@ class Project(models.Model):
     
     def __str__(self):
         return self.name
+    
+    def get_ordered_skills(self):
+        return self.skills.order_by("-level")
 
 class ProjectUrl(models.Model):
     REPOSITORY = "REPO"

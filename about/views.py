@@ -58,7 +58,7 @@ class SkillDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAdminUserOrReadOnly]
 
 class SkillWithCategoryList(generics.ListCreateAPIView):
-    queryset = SkillCategory.objects.all()
+    queryset = SkillCategory.objects.all().order_by("priority")
     serializer_class = SkillCategorySerializer
     permission_classes = [IsAdminUserOrReadOnly]
 
