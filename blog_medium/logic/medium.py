@@ -35,7 +35,7 @@ def parse_post_xml(xml_post: Element):
         'name': title.text,
         'content': sanitizer.sanitize(content.text),
         'created_at': datetime.strptime(created_at.text, "%a, %d %b %Y %H:%M:%S %Z"),
-        'updated_at': datetime.fromisoformat(updated_at.text),
+        'updated_at': datetime.fromisoformat(updated_at.text[:-1]),
         'url': link.text,
     }
 
