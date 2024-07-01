@@ -23,7 +23,7 @@ from commons.views import register_user
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('about/', include('about.urls')),
-    path('blog/', include('blog.urls')),
+    path('blog/', include('blog_medium.urls')),
     path('auth/token/', obtain_auth_token, name='obtain_auth_token'),
     path('auth/register/', register_user, name='register_user'),
 ]
