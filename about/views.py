@@ -88,7 +88,7 @@ class AffiliationExperienceList(generics.ListCreateAPIView):
     permission_classes = [ReadOnly]
 
 class ProjectList(generics.ListCreateAPIView):
-    queryset = Project.objects.all()
+    queryset = Project.objects.order_by("-date").all()
     serializer_class = ProjectSerializer
     permission_classes = [IsAdminUserOrReadOnly]
 

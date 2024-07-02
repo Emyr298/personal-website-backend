@@ -84,6 +84,7 @@ class Project(models.Model):
     image_url = models.URLField()
     description = models.TextField()
     skills = models.ManyToManyField(Skill)
+    date = models.DateField()
     
     def __str__(self):
         return self.name
