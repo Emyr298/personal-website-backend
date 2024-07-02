@@ -63,7 +63,7 @@ class ProjectUrlSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'url', 'project']
 
 class ProjectSerializer(serializers.ModelSerializer):
-    project_urls = ProjectUrlSerializer(many=True, read_only=True)
+    project_urls = ProjectUrlSerializer(source='get_ordered_urls', many=True, read_only=True)
     skills = serializers.SlugRelatedField(source='get_ordered_skills', many=True, read_only=True, slug_field='name')
     
     class Meta:

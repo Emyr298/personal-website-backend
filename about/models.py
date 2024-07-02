@@ -91,6 +91,9 @@ class Project(models.Model):
     
     def get_ordered_skills(self):
         return self.skills.order_by("-level")
+    
+    def get_ordered_urls(self):
+        return self.project_urls.order_by("-url_type")
 
 class ProjectUrl(models.Model):
     REPOSITORY = "REPO"
