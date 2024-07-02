@@ -83,9 +83,25 @@ class ExperienceDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsAdminUserOrReadOnly]
 
 class AffiliationExperienceList(generics.ListCreateAPIView):
-    queryset = Affiliation.objects.filter(positions__isnull=False).distinct()
+    queryset = Affiliation.objects.filter(
+            positions__isnull=False
+        ).order_by("name").order_by(
+            F('positions__end_date').desc(nulls_first=True),
+            F('positions__start_date').desc(nulls_first=True)
+        )
     serializer_class = AffiliationExperienceSerializer
     permission_classes = [ReadOnly]
+    
+    def list(self, request):
+        query_set = self.get_queryset()
+        affiliation_set = set()
+        affiliation_list = []
+        for affiliation in query_set:
+            if not affiliation.id in affiliation_set:
+                affiliation_set.add(affiliation.id)
+                affiliation_list.append(affiliation)
+        serializer = AffiliationExperienceSerializer(affiliation_list, many=True)
+        return JsonResponse(serializer.data, safe=False)
 
 class ProjectList(generics.ListCreateAPIView):
     queryset = Project.objects.order_by("-date").all()
